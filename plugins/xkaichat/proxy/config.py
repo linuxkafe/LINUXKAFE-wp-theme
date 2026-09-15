@@ -30,6 +30,9 @@ class ProxyConfig:
     temperature: float = _float("OLLAMA_TEMPERATURE", 0.3)
     llm_timeout: float = _float("LLM_TIMEOUT", 150.0)
 
+    broker_url: str = os.environ.get("BROKER_URL", "")
+    broker_key: str = os.environ.get("BROKER_KEY", "")
+
     gateway_url: str = os.environ.get("GATEWAY_URL", "")
     gateway_api_key: str = os.environ.get("GATEWAY_API_KEY", "")
     gateway_model: str = os.environ.get("GATEWAY_MODEL", ollama_model)

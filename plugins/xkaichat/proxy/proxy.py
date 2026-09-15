@@ -73,10 +73,10 @@ def _check_proxy_key(x_xkai_proxy_key: str | None) -> None:
 
 
 def _upstream_online() -> str:
-    """Probe curto ao LLM (Ollama ou gateway) para o indicador de estado.
+    """Probe curto ao LLM (Broker/Ollama ou gateway) para o indicador de estado.
 
     O health do proxy não é suficiente para o widget: o proxy pode estar de pé
-    e o Ollama em baixo. Um GET aos tags do Ollama (timeout curto) resolve.
+    e o LLM em baixo. Um GET aos tags (timeout curto) resolve.
     Devolve sempre "ok"/"down" — nunca levanta exceções.
     """
     timeout = httpx.Timeout(1.5, connect=1.5)
@@ -84,6 +84,9 @@ def _upstream_online() -> str:
         with httpx.Client(timeout=timeout) as client:
             if config.gateway_url:
                 resp = client.get(f"{config.gateway_url}/models")
+            elif config.broker_url:
+                headers = {"X-Xkai-Proxy-Key": config.broker_key} if config.broker_key else {}
+                resp = client.get(f"{config.broker_url}/api/tags", headers=headers)
             else:
                 resp = client.get(f"{config.ollama_url}/api/tags")
         return "ok" if resp.status_code < 400 else "down"
@@ -127,8 +130,15 @@ def _llm_ollama(messages: list[dict[str, str]]) -> str:
         "stream": False,
         "options": {"temperature": config.temperature},
     }
+    headers = {}
+    if config.broker_key:
+        headers["X-Xkai-Proxy-Key"] = config.broker_key
+
+    target_url = config.broker_url or config.ollama_url
+    endpoint = "/api/chat"
+
     with httpx.Client(timeout=config.llm_timeout) as client:
-        resp = client.post(f"{config.ollama_url}/api/chat", json=payload)
+        resp = client.post(f"{target_url}{endpoint}", json=payload, headers=headers)
     resp.raise_for_status()
     data = resp.json()
     message = data.get("message", {})
@@ -168,9 +178,13 @@ def _generate(message: str) -> tuple[Context, str]:
 
 @app.get("/api/health")
 def health() -> dict:
+    if config.broker_url:
+        mode = "broker" + ("+gateway" if config.gateway_url else "")
+    else:
+        mode = "ollama" + ("+gateway" if config.gateway_url else "")
     return {
         "status": "ok",
-        "mode": "ollama" if not config.gateway_url else "ollama+gateway",
+        "mode": mode,
         "model": config.ollama_model,
         "cache_items": cache.count(),
         "upstream": _upstream_online(),
