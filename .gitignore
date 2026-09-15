@@ -1,13 +1,7 @@
-# AES system - excluded per user request
-aes/
-.aes/
-
-# Dependencies
-node_modules/
-
-# Build outputs
+# Root
 *.log
 npm-debug.log*
+.DS_Store
 
 # IDE
 .vscode/
@@ -15,15 +9,12 @@ npm-debug.log*
 *.swp
 *.swo
 
+# Theme (in themes/linuxkafe/)
+themes/linuxkafe/node_modules/
+themes/linuxkafe/*.log
+themes/linuxkafe/.style.css.swp
+themes/linuxkafe/playwright-report/
+themes/linuxkafe/test-results/
+
 # OS
-.DS_Store
 Thumbs.db
-
-# Test outputs
-playwright-report/
-test-results/
-*.lighthouse.html
-
-# WordPress
-*.sql
-*.sqlite

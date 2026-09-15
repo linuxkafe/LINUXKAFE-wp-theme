@@ -1,52 +1,49 @@
-# LINUXKAFÉ Theme
-> based on _s and generated code using service modules like Google Gemini 3
+# linuxkafe WordPress Theme
 
-Installation
----------------
+Tema WordPress gamificado com terminal Linux, Tux walker, graffiti, cybercafé toasts, easter eggs e jogo retro (Snake).
 
-### Requirements
+## Estrutura
 
-`_s` requires the following dependencies:
-
-- [Node.js](https://nodejs.org/)
-- [Composer](https://getcomposer.org/)
-
-### Quick Start
-
-Clone or download this repository, change its name to something else (like, say, `megatherium-is-awesome`), and then you'll need to do a six-step find and replace on the name in all the templates.
-
-1. Search for `'_s'` (inside single quotations) to capture the text domain and replace with: `'megatherium-is-awesome'`.
-2. Search for `_s_` to capture all the functions names and replace with: `megatherium_is_awesome_`.
-3. Search for `Text Domain: _s` in `style.css` and replace with: `Text Domain: megatherium-is-awesome`.
-4. Search for <code>&nbsp;_s</code> (with a space before it) to capture DocBlocks and replace with: <code>&nbsp;Megatherium_is_Awesome</code>.
-5. Search for `_s-` to capture prefixed handles and replace with: `megatherium-is-awesome-`.
-6. Search for `_S_` (in uppercase) to capture constants and replace with: `MEGATHERIUM_IS_AWESOME_`.
-
-Then, update the stylesheet header in `style.css`, the links in `footer.php` with your own information and rename `_s.pot` from `languages` folder to use the theme's slug. Next, update or delete this readme.
-
-### Setup
-
-To start using all the tools that come with `_s`  you need to install the necessary Node.js and Composer dependencies :
-
-```sh
-$ composer install
-$ npm install
+```
+.
+├── README.md
+├── plugins/
+│   ├── xkaichat/     # WordPress AI Assistant (Ollama + RAG)
+│   └── xkinstagram/  # Instagram posts import
+└── themes/
+    └── linuxkafe/    # Tema principal
 ```
 
-### Available CLI commands
+## Instalação
 
-`_s` comes packed with CLI commands tailored for WordPress theme development :
+1. Copie `themes/linuxkafe/` para `wp-content/themes/`
+2. Copie `plugins/` para `wp-content/plugins/`
+3. Ative o tema e plugins no WordPress
 
-- `composer lint:wpcs` : checks all PHP files against [PHP Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/).
-- `composer lint:php` : checks all PHP files for syntax errors.
-- `composer make-pot` : generates a .pot file in the `languages/` directory.
-- `npm run compile:css` : compiles SASS files to css.
-- `npm run compile:rtl` : generates an RTL stylesheet.
-- `npm run watch` : watches all SASS files and recompiles them to css when they change.
-- `npm run lint:scss` : checks all SASS files against [CSS Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/css/).
-- `npm run lint:js` : checks all JavaScript files against [JavaScript Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/javascript/).
-- `npm run bundle` : generates a .zip archive for distribution, excluding development and system files.
+## Requisitos
 
-Now you're ready to go! The next step is easy to say, but harder to do: make an awesome WordPress theme. :)
+- WordPress 6.0+
+- PHP 7.4+
+- Node.js 18+ (para build do tema)
 
-Good luck!
+## Build do Tema
+
+```bash
+cd themes/linuxkafe
+npm install
+npm run compile:css
+```
+
+## Funcionalidades
+
+- **Terminal Linux** interativo (`~` para abrir)
+- **Tux Walker** - Pinguim animado (triple-click = jogo retro)
+- **Graffiti Writer** - Canvas animado
+- **Cybercafé Toasts** - Mensagens nostálgicas
+- **Easter Eggs** - Konami code, God mode, IDKFA
+- **Jogo Retro** - Snake clone (triple-click no Tux)
+- **Analytics** - Plausible/GA4 + endpoint customizado
+
+## Documentação
+
+Ver `themes/linuxkafe/docs/` para documentação completa (VISION, REQUIREMENTS, DESIGN, ROADMAP, CHECKLIST).
