@@ -1,0 +1,29 @@
+# AES system - excluded per user request
+aes/
+.aes/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test outputs
+playwright-report/
+test-results/
+*.lighthouse.html
+
+# WordPress
+*.sql
+*.sqlite

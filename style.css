@@ -1,0 +1,430 @@
+/*
+Theme Name: linuxkafe
+Description: Tema moderno, limpo e responsivo.
+Version: 2.1.0
+Author: LinuxKafé
+*/
+
+/* ==========================================================================
+   1. VARIÁVEIS & CONFIGURAÇÃO
+   ========================================================================== */
+:root {
+
+	/* Cores */
+	--color-primary: #f8b400;      /* Amarelo LinuxKafé */
+	--color-text: #212121;
+	--color-text-light: #555;
+	--color-bg: #fff;
+	--color-bg-card: #fff;
+	--color-header: #2d2d2d;       /* Fundo do Header */
+	--color-border: #e0e0e0;
+	--color-link: #0056b3;
+
+	/* Tipografia */
+	--font-base: "Inter", system-ui, -apple-system, sans-serif;
+	--font-heading: "Poppins", var(--font-base);
+	--font-mono: "Fira Code", monospace;
+
+	/* Layout */
+	--width-max: 1100px;
+	--border-radius: 8px;
+	--shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   2. UTILITÁRIOS GLOBAIS (O Fix da Checkbox está aqui)
+   ========================================================================== */
+
+/* Esconde a checkbox de controlo do menu EM TODO O LADO */
+#menu-btn,
+.menu-btn {
+	display: none !important;
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	z-index: -999;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-base);
+	font-size: 1rem;
+	line-height: 1.6;
+	color: var(--color-text);
+
+	/* A cor de fundo serve de fallback enquanto a imagem carrega */
+	background-color: #f0f0f0;
+
+	/* NOTA: As propriedades de background-image agora vêm do header.php */
+
+	-webkit-font-smoothing: antialiased;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* ==========================================================================
+   3. HEADER & NAVEGAÇÃO (Slim & Dark)
+   ========================================================================== */
+.site-header {
+	background-color: var(--color-header);
+	padding: 0;
+	width: 100%;
+	position: relative;
+	z-index: 1000;
+}
+
+.header-container {
+	max-width: var(--width-max);
+	margin: 0 auto;
+	padding: 0 1rem;
+	display: flex;
+	justify-content: flex-end; /* Menu alinhado à direita */
+	align-items: center;
+	min-height: 50px;
+}
+
+/* Menu Desktop */
+.main-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 1.5rem;
+}
+
+.main-navigation a {
+	color: #e0e0e0;
+	font-weight: 500;
+	font-size: 0.95rem;
+	padding: 0.8rem;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.main-navigation a:hover {
+	color: var(--color-primary);
+}
+
+/* Sub-menus Desktop */
+.main-navigation ul li {
+	position: relative;
+}
+
+.main-navigation ul ul.sub-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 10; /* Alinha pela direita para não sair do ecrã */
+	min-width: 200px;
+	background-color: var(--color-header);
+	border: 1px solid #444;
+	padding: 0;
+	flex-direction: column;
+	z-index: 9999;
+}
+
+.main-navigation ul li:hover > ul.sub-menu {
+	display: flex;
+}
+
+.main-navigation ul ul.sub-menu li {
+	border-bottom: 1px solid #444;
+}
+
+.main-navigation ul ul.sub-menu a {
+	padding: 0.8rem 1.2rem;
+	white-space: nowrap;
+	display: block;
+}
+
+/* ==========================================================================
+   4. LOGO (Dentro do Conteúdo)
+   ========================================================================== */
+.content-branding {
+	text-align: left;
+	margin-bottom: 2rem;
+}
+
+.content-branding img,
+.custom-logo {
+	margin: 0; /* Remove a centralização (margin: 0 auto) */
+
+	/* Remove fundos e bordas */
+	background: transparent !important;
+	border: none !important;
+	padding: 0 !important;
+
+	/* TRUQUE PARA O QUADRADO BRANCO:
+       Multiplica o branco pelo fundo cinza claro, tornando-o transparente.
+       Preserva o amarelo e preto. */
+	mix-blend-mode: multiply;
+}
+
+/* ==========================================================================
+   5. LAYOUT DE CONTEÚDO (Card)
+   ========================================================================== */
+.site-main {
+	padding: 2rem 1rem;
+	flex-grow: 1;
+}
+
+.linuxkafe-modern-theme {
+	max-width: var(--width-max);
+	margin: 0 auto;
+	background-color: rgba(255, 255, 255, 0.98);
+	padding: 3rem;
+	border-radius: var(--border-radius);
+}
+
+/* Tipografia do Conteúdo */
+h1,
+h2,
+h3 {
+	font-family: var(--font-heading);
+	color: var(--color-primary);
+	margin-top: 1.5rem;
+}
+
+h1.site-title {
+	font-size: 2.5rem;
+	margin: 0;
+}
+
+/* Links gerais: texto normal por defeito, destaque ao passar o rato */
+a {
+	color: inherit !important;            /* Herda a cor do texto onde está */
+	text-decoration: none !important;     /* Sem sublinhado */
+	transition: color 0.2s ease-in-out;   /* Transição suave */
+}
+
+a:hover,
+a:focus {
+	color: var(--color-primary) !important; /* Fica Amarelo (#F8B400) no hover */
+	text-decoration: none !important;
+}
+
+/* Snippets de Código */
+pre,
+code {
+	font-family: var(--font-mono);
+	background: #2d2d2d;
+	color: #f8f8f2;
+	border-radius: 4px;
+}
+
+pre {
+	padding: 1rem;
+	overflow-x: auto;
+}
+
+/* ==========================================================================
+   6. FOOTER
+   ========================================================================== */
+.site-footer {
+	background-color: var(--color-bg-card);
+	border-top: 1px solid var(--color-border);
+	padding: 2rem;
+	text-align: center;
+	color: var(--color-text-light);
+	margin-top: auto;
+}
+
+/* ==========================================================================
+   7. MOBILE & RESPONSIVIDADE (Unificado < 850px)
+   ========================================================================== */
+@media (max-width: 850px) {
+
+	/* Ajuste Header Mobile */
+	.header-container {
+		justify-content: space-between; /* Espaço entre logo (se houvesse) e botão */
+		padding: 0.5rem 1rem;
+	}
+
+	/* Botão Hamburger (Visível só aqui) */
+	.menu-icon {
+		cursor: pointer;
+		display: block;
+		padding: 10px;
+		user-select: none;
+	}
+
+	.navicon {
+		background: #fff; /* Branco para bater com o fundo escuro */
+		display: block;
+		height: 2px;
+		width: 24px;
+		position: relative;
+	}
+
+	.navicon::before,
+	.navicon::after {
+		background: #fff;
+		content: "";
+		display: block;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		transition: all 0.2s ease-out;
+	}
+
+	.navicon::before {
+		top: 7px;
+	}
+
+	.navicon::after {
+		top: -7px;
+	}
+
+	/* Menu Aberto */
+	.main-navigation .menu {
+		display: none; /* Escondido por defeito */
+		flex-direction: column;
+		width: 100%;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background-color: var(--color-header);
+		border-top: 1px solid #444;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	/* Gatilho para abrir */
+	.menu-btn:checked ~ .menu {
+		display: flex;
+	}
+
+	/* Animação do X */
+	.menu-btn:checked ~ .menu-icon .navicon {
+		background: transparent;
+	}
+
+	.menu-btn:checked ~ .menu-icon .navicon::before {
+		transform: rotate(-45deg);
+		top: 0;
+	}
+
+	.menu-btn:checked ~ .menu-icon .navicon::after {
+		transform: rotate(45deg);
+		top: 0;
+	}
+
+	/* Itens do Menu Mobile */
+	.main-navigation ul {
+		gap: 0;
+	}
+
+	.main-navigation ul li {
+		width: 100%;
+		border-bottom: 1px solid #444;
+	}
+
+	.main-navigation ul li a {
+		padding: 1rem 1.5rem;
+		display: block;
+	}
+
+	/* Submenus Mobile (Estáticos e Indentados) */
+	.main-navigation ul ul.sub-menu {
+		position: static;
+		display: block;
+		box-shadow: none;
+		border: none;
+		background-color: rgba(255, 255, 255, 0.05); /* Ligeiramente mais claro */
+	}
+
+	.main-navigation ul ul.sub-menu a {
+		padding-left: 2.5rem !important; /* Indentação forçada */
+		font-size: 0.9rem;
+		color: #ccc;
+	}
+
+	/* Ajuste Logo Mobile */
+	.content-branding img {
+		max-width: 200px;
+	}
+
+	.linuxkafe-modern-theme {
+		padding: 1.5rem;
+	}
+}
+
+/* ========================================================= */
+
+/* UI TWEAKS: ESCONDER TÍTULO DA PÁGINA (H1) */
+
+/* ========================================================= */
+.linuxkafe-modern-theme .entry-header .entry-title,
+.linuxkafe-modern-theme .entry-title {
+	display: none !important;
+}
+
+/* 1. Força o alinhamento à esquerda do Menu Wrapper e torna-o STICKY */
+.menu-wrapper {
+	text-align: left !important;
+	width: 100%;
+	margin: 0 !important;
+
+	/* Configuração Sticky */
+	position: -webkit-sticky !important; /* Safari */
+	position: sticky !important;
+	top: 0 !important;
+	z-index: 1000 !important;
+
+	/* Estética para quando faz scroll (fundo semi-transparente) */
+	background-color: #1a1a1a !important;
+	backdrop-filter: blur(5px); /* Efeito vidro */
+	border-bottom: 2px solid #f8b400; /* Uma linha fina amarela no fundo para separar */
+
+	/* Ajuste de padding para respirar */
+	padding: 10px 20px !important;
+
+	/* Margem negativa lateral para compensar o padding */
+
+	/* do container pai (.linuxkafe-modern-theme) se necessário, */
+
+	/* mas experimenta assim primeiro. */
+}
+
+/* Cor do texto dos links para BRANCO */
+.menu-wrapper a,
+.main-navigation a,
+#primary-menu a {
+	color: #fff !important;
+	font-weight: 500 !important;
+}
+
+/* Hover continua amarelo */
+.menu-wrapper a:hover,
+.main-navigation a:hover,
+#primary-menu a:hover {
+	color: #f8b400 !important;
+	background-color: rgba(255, 255, 255, 0.05) !important; /* Leve destaque no fundo ao passar o rato */
+}
+
+/* Ajuste para Mobile (onde o padding do tema é 15px) */
+@media (max-width: 768px) {
+
+	.menu-wrapper {
+		margin-left: -15px !important;
+		margin-right: -15px !important;
+		padding-left: 15px !important;
+		padding-right: 15px !important;
+		width: calc(100% + 30px) !important;
+	}
+}
+
+/* Garante que o botão de mobile não aparece no desktop */
+button.menu-toggle {
+	display: none !important;
+}
+
