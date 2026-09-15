@@ -18,3 +18,7 @@ themes/linuxkafe/test-results/
 
 # OS
 Thumbs.db
+
+# AES system - internal, not for repo
+**/aes/
+**/.aes/
