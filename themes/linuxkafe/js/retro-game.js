@@ -5,6 +5,7 @@
  */
 
 import { CONFIG, eventBus, createElement, injectStyles, debug, onDOMReady, prefersReducedMotion, lsGet, lsSet, getCSSVar } from './core.js';
+import { initAudio, SOUNDS } from './audio.js';
 
 // ============================================================================
 // GAME CONSTANTS
@@ -289,7 +290,6 @@ export class RetroGame {
       lastTick: 0,
       elements: {},
     };
-    this.audioCtx = null;
     this.init();
   }
 
@@ -376,30 +376,10 @@ export class RetroGame {
   }
 
   initAudio() {
-    try {
-      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) {
-      debug('Web Audio API not available:', e);
-    }
+    initAudio();
   }
 
-  playTone(frequency, duration, type = 'square') {
-    if (!this.audioCtx || prefersReducedMotion()) return;
-    try {
-      const osc = this.audioCtx.createOscillator();
-      const gain = this.audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.value = frequency;
-      gain.gain.value = 0.05;
-      osc.connect(gain);
-      gain.connect(this.audioCtx.destination);
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
-      osc.stop(this.audioCtx.currentTime + duration);
-    } catch (e) {
-      // Ignore audio errors
-    }
-  }
+  // playTone is now handled by the audio.js module via SOUNDS
 
   bindEvents() {
     // Keyboard
@@ -585,7 +565,7 @@ export class RetroGame {
     if (newHead.x === this.state.food.x && newHead.y === this.state.food.y) {
       this.state.score += 10;
       this.updateScoreDisplay();
-      this.playTone(880, 0.1);
+      SOUNDS.eat();
       this.spawnFood();
       // Increase speed slightly every 50 points
       if (this.state.score % 50 === 0 && this.state.speed > 60) {
@@ -665,7 +645,7 @@ export class RetroGame {
       this.state.elements.highscoreEl.textContent = String(this.state.highScore);
     }
 
-    this.playTone(220, 0.3, 'sawtooth');
+    SOUNDS.gameOver();
     this.showOverlay('Game Over', this.state.score);
   }
 
@@ -693,9 +673,6 @@ export class RetroGame {
     this.pause();
     if (this.state.elements.modal.parentNode) {
       this.state.elements.modal.remove();
-    }
-    if (this.audioCtx) {
-      this.audioCtx.close();
     }
   }
 }

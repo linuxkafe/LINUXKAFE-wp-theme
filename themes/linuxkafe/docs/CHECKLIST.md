@@ -76,7 +76,7 @@
 - [x] Stylelint line-length fix (Sprint 03) ✅ Done
 - [x] Customizer postMessage transport (Sprint 03) ✅ Done
 - [x] Playwright coverage expandido (Sprint 03) ✅ Done
-- [x] Expanded cybercafe messages (Sprint 04) ✅ Done
+- [x] Web Audio API sounds (eat, game over, level up) (Sprint 05) ✅ Done
 - [x] HTML5 Retro Game (Snake clone) (Sprint 04) ✅ Done
 - [x] Tux triple-click trigger (Sprint 04) ✅ Done
 - [x] Game modal with focus trap (Sprint 04) ✅ Done

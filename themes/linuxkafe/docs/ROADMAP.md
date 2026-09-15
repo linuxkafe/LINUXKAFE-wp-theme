@@ -20,3 +20,15 @@
 | T004.6 | Reduced motion support for game | Médio | Baixo | Médio | ✅ Done |
 | T004.7 | Playwright tests for retro game + expanded messages | Médio | Alto | Médio | ✅ Done |
 | T004.8 | Docs updates (ROADMAP, CHECKLIST, js/README.md) | Baixo | Baixo | Baixo | ✅ Done |
+
+## Sprint 05 — Game Polish, Audio & Leaderboard
+| ID | Task | Impact | Effort | Priority | Status |
+|----|------|--------|--------|----------|--------|
+| T005.1 | Web Audio API sounds (eat, game over, level up) | Alto | Médio | Alto | ✅ Done |
+| T005.2 | Leaderboard top 10 with name entry modal | Alto | Médio | Alto | 🔄 In Progress |
+| T005.3 | Game loop optimization (fixed timestep update + RAF draw) | Médio | Médio | Médio | ⏳ Pending |
+| T005.4 | Particle effects (food eat, game over) | Médio | Baixo | Médio | ⏳ Pending |
+| T005.5 | Smoother animations (modal, score counter) | Baixo | Baixo | Baixo | ⏳ Pending |
+| T005.6 | Mobile touch improvements (swipe, haptic) | Médio | Médio | Baixo | ⏳ Pending |
+| T005.7 | Playwright tests for audio, leaderboard, particles | Médio | Alto | Médio | ⏳ Pending |
+| T005.8 | Docs updates (ROADMAP, CHECKLIST, js/README.md) | Baixo | Baixo | Baixo | ⏳ Pending |
