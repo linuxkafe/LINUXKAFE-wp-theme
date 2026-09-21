@@ -387,6 +387,22 @@ function linuxkafe_enqueue_gamification() {
 add_action( 'wp_enqueue_scripts', 'linuxkafe_enqueue_gamification', 20 );
 
 /* ========================================================= */
+/* HEADER SCRIPTS (T007)                                     */
+/* ========================================================= */
+function linuxkafe_enqueue_header() {
+    $js_dir = get_template_directory_uri() . '/js';
+
+    wp_enqueue_script(
+        'linuxkafe-header',
+        $js_dir . '/header.js',
+        array(),
+        filemtime( get_template_directory() . '/js/header.js' ),
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'linuxkafe_enqueue_header', 25 );
+
+/* ========================================================= */
 /* ANALYTICS REST ENDPOINT                                   */
 /* ========================================================= */
 add_action( 'rest_api_init', function() {

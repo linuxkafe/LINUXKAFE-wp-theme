@@ -10,8 +10,15 @@ status: active
 | ID | Title | Status |
 |----|-------|--------|
 | T006 | Megahost Feature Parity — Layout System | done |
-| T007 | Megahost Feature Parity — Header Styles (3 variants) | in-progress |
-| T009 | Megahost Feature Parity — Customizer (Kirki) Integration | pending |
+| T007 | Megahost Feature Parity — Header Styles (3 variants) | done |
+| T009 | Megahost Feature Parity — Customizer Integration | done |
+
+## Retrospective
+*Filled at end of sprint.*
+
+### What went well
+### What went wrong
+### What to change next sprint
 
 ## Retrospective
 *Filled at end of sprint.*

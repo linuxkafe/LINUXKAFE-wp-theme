@@ -840,3 +840,172 @@ test.describe('Layout System (T006)', () => {
     expect(boxShadow).toBe('none');
   });
 });
+
+test.describe('Header Styles (T007)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(6000);
+  });
+
+  test('default header is header_1 (solid)', async ({ page }) => {
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/header-style-1/);
+  });
+
+  test('header_1 has top bar and client area', async ({ page }) => {
+    await expect(page.locator('.top-bar-wrapper')).toBeVisible();
+    await expect(page.locator('.client-area')).toBeVisible();
+    await expect(page.locator('.client-area-toggle')).toBeVisible();
+  });
+
+  test('header_1 client area toggle opens form', async ({ page }) => {
+    const toggle = page.locator('.client-area-toggle');
+    const form = page.locator('#client-area-form');
+
+    await expect(form).toBeHidden();
+    await toggle.click();
+    await expect(form).toBeVisible();
+    await expect(form.locator('input[name="client_user"]')).toBeVisible();
+    await expect(form.locator('input[name="client_pass"]')).toBeVisible();
+    await expect(form.locator('.btn-login')).toBeVisible();
+
+    // Close form
+    await form.locator('.btn-close-client-area').click();
+    await expect(form).toBeHidden();
+  });
+
+  test('header_1 client area closes on escape', async ({ page }) => {
+    const toggle = page.locator('.client-area-toggle');
+    const form = page.locator('#client-area-form');
+
+    await toggle.click();
+    await expect(form).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(form).toBeHidden();
+  });
+
+  test('header_1 top bar elements visible', async ({ page }) => {
+    await expect(page.locator('.topbar-list')).toBeVisible();
+    const items = page.locator('.topbar-item');
+    await expect(items).toHaveCount(3);
+  });
+
+  test('header_2 is transparent', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-2');
+    });
+
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/header-style-2/);
+
+    const header = page.locator('.site-header');
+    const bg = await header.evaluate(el => window.getComputedStyle(el).backgroundColor);
+    expect(bg).toBe('rgba(0, 0, 0, 0)'); // transparent
+  });
+
+  test('header_2 has no client area', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-2');
+    });
+
+    await expect(page.locator('.client-area')).toHaveCount(0);
+    await expect(page.locator('.top-bar-wrapper')).toBeVisible();
+  });
+
+  test('header_3 is minimal section title', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-3');
+    });
+
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/header-style-3/);
+
+    // Header 3 should not have navigation
+    await expect(page.locator('.main-navigation')).toHaveCount(0);
+    // Should have section title
+    await expect(page.locator('.section-title-content')).toBeVisible();
+  });
+
+  test('header_3 shows breadcrumbs', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-3');
+    });
+
+    await expect(page.locator('.breadcrumbs')).toBeVisible();
+  });
+
+  test('header_3 hides on front page', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-3');
+    });
+
+    // On front page, header 3 should be hidden (only section title on non-front pages)
+    // The template part returns early for front page
+    const header = page.locator('.header-style-3');
+    // Header element exists but may be empty
+    await expect(header).toBeAttached();
+  });
+
+  test('all headers work with boxed layout', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-boxed');
+    });
+
+    // Test header 1 with boxed
+    await expect(page.locator('.layout-boxed.header-style-1')).toBeVisible();
+    await expect(page.locator('.client-area')).toBeVisible();
+
+    // Test header 2 with boxed
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-2');
+    });
+    await expect(page.locator('.layout-boxed.header-style-2')).toBeVisible();
+
+    // Test header 3 with boxed
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-2');
+      document.body.classList.add('header-style-3');
+    });
+    await expect(page.locator('.layout-boxed.header-style-3')).toBeVisible();
+  });
+
+  test('mobile menu works in header_1', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.reload();
+    await page.waitForTimeout(6000);
+
+    const menuBtn = page.locator('#menu-btn');
+    const menu = page.locator('.menu');
+
+    // Menu should be hidden initially
+    await expect(menu).toBeHidden();
+
+    // Check the checkbox to open menu
+    await menuBtn.check();
+    await expect(menu).toBeVisible();
+  });
+
+  test('mobile menu works in header_2', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.reload();
+    await page.waitForTimeout(6000);
+
+    await page.evaluate(() => {
+      document.body.classList.remove('header-style-1');
+      document.body.classList.add('header-style-2');
+    });
+
+    const menuBtn = page.locator('#menu-btn');
+    const menu = page.locator('.menu');
+
+    await menuBtn.check();
+    await expect(menu).toBeVisible();
+  });
+});

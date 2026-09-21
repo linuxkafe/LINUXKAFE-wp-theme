@@ -181,4 +181,79 @@
       el.style.overflow = '';
     } );
   }
+
+  /* ========================================================= */
+  /* HEADER STYLES — Live Preview (T007)                       */
+  /* ========================================================= */
+
+  customize( 'linuxkafe_header_style', ( value ) => {
+    value.bind( ( to ) => {
+      applyHeaderStyle( to );
+    } );
+  } );
+
+  /**
+   * Apply header style class to body for live preview
+   */
+  function applyHeaderStyle( style ) {
+    const validStyles = [ 'header_1', 'header_2', 'header_3' ];
+    const safeStyle = validStyles.includes( style ) ? style : 'header_1';
+
+    // Remove existing header style classes
+    document.body.classList.remove( 'header-style-1', 'header-style-2', 'header-style-3' );
+
+    // Add new header style class
+    document.body.classList.add( `header-style-${  safeStyle.replace( 'header_', '' ) }` );
+
+    // Reload header via AJAX for preview (simplified: just reload page)
+    // In a real implementation, this would fetch the header template part
+    if ( window.wp && window.wp.customize ) {
+      window.wp.customize.previewer.refresh();
+    }
+  }
+
+  // Client Area fields live preview
+  [ 'show_support', 'login_user', 'login_password', 'login_button', 'close_title', 'open_title' ].forEach( field => {
+    customize( `linuxkafe_header_${  field}`, ( value ) => {
+      value.bind( () => {
+        if ( window.wp && window.wp.customize ) {
+          window.wp.customize.previewer.refresh();
+        }
+      } );
+    } );
+  } );
+
+  // Top Bar fields live preview
+  [ 'topbar_show_elements', 'topbar_align' ].forEach( field => {
+    customize( `linuxkafe_${  field}`, ( value ) => {
+      value.bind( () => {
+        if ( window.wp && window.wp.customize ) {
+          window.wp.customize.previewer.refresh();
+        }
+      } );
+    } );
+  } );
+
+  [ 1, 2, 3 ].forEach( num => {
+    [ 'icon', 'title', 'url' ].forEach( field => {
+      customize( `linuxkafe_topbar_element_${  num }_${  field }`, ( value ) => {
+        value.bind( () => {
+          if ( window.wp && window.wp.customize ) {
+            window.wp.customize.previewer.refresh();
+          }
+        } );
+      } );
+    } );
+  } );
+
+  // Section Titles live preview
+  [ 'section_title_align', 'section_title_breadcrumbs' ].forEach( field => {
+    customize( `linuxkafe_${  field }`, ( value ) => {
+      value.bind( () => {
+        if ( window.wp && window.wp.customize ) {
+          window.wp.customize.previewer.refresh();
+        }
+      } );
+    } );
+  } );
 } )();
