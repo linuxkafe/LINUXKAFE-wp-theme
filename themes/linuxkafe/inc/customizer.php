@@ -122,6 +122,50 @@ function linuxkafe_customize_register( $wp_customize ) {
 		'priority' => 60,
 	) );
 }
+
+/* ========================================================= */
+/* LAYOUT SYSTEM — Customizer Section (T006)                 */
+/* ========================================================= */
+
+// Section
+$wp_customize->add_section( 'linuxkafe_layouts', array(
+	'title'       => __( 'Layout', 'linuxkafe' ),
+	'description' => __( 'Choose the site layout style.', 'linuxkafe' ),
+	'priority'    => 40,
+	'panel'       => '',
+) );
+
+// Layout type setting
+$wp_customize->add_setting( 'linuxkafe_layout_type', array(
+	'default'           => 'semiboxed',
+	'type'              => 'theme_mod',
+	'sanitize_callback' => 'linuxkafe_sanitize_layout_type',
+	'transport'         => 'postMessage',
+) );
+
+$wp_customize->add_control( 'linuxkafe_layout_type', array(
+	'label'    => __( 'Site Layout', 'linuxkafe' ),
+	'section'  => 'linuxkafe_layouts',
+	'type'     => 'radio',
+	'priority' => 10,
+	'choices'  => array(
+		'wide'          => esc_attr__( 'Wide', 'linuxkafe' ),
+		'semiboxed'     => esc_attr__( 'Semi Boxed', 'linuxkafe' ),
+		'boxed'         => esc_attr__( 'Boxed', 'linuxkafe' ),
+		'boxed-margin'  => esc_attr__( 'Boxed Margin', 'linuxkafe' ),
+	),
+) );
+
+/**
+ * Sanitize layout type.
+ *
+ * @param string $value Layout value.
+ * @return string Sanitized layout value.
+ */
+function linuxkafe_sanitize_layout_type( $value ) {
+	$valid = array( 'wide', 'semiboxed', 'boxed', 'boxed-margin' );
+	return in_array( $value, $valid, true ) ? $value : 'semiboxed';
+}
 add_action( 'customize_register', 'linuxkafe_customize_register' );
 
 /**

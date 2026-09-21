@@ -144,4 +144,41 @@
       el.style.display = enabled ? '' : 'none';
     }
   }
+
+  /* ========================================================= */
+  /* LAYOUT SYSTEM — Live Preview (T006)                       */
+  /* ========================================================= */
+
+  customize( 'linuxkafe_layout_type', ( value ) => {
+    value.bind( ( to ) => {
+      applyLayoutClass( to );
+    } );
+  } );
+
+  /**
+   * Apply layout class to body for live preview
+   */
+  function applyLayoutClass( layout ) {
+    const validLayouts = [ 'wide', 'semiboxed', 'boxed', 'boxed-margin' ];
+    const safeLayout = validLayouts.includes( layout ) ? layout : 'semiboxed';
+
+    // Remove existing layout classes
+    document.body.classList.remove( 'layout-wide', 'layout-semiboxed', 'layout-boxed', 'layout-boxed-margin' );
+
+    // Add new layout class
+    document.body.classList.add( `layout-${  safeLayout }` );
+
+    // Trigger reflow for container elements
+    const containers = document.querySelectorAll( '.site-header, .header-container, .linuxkafe-modern-theme, .site-main, .site-footer, .menu-wrapper' );
+    containers.forEach( el => {
+      // Force style recalculation
+      el.style.maxWidth = '';
+      el.style.marginLeft = '';
+      el.style.marginRight = '';
+      el.style.backgroundColor = '';
+      el.style.boxShadow = '';
+      el.style.borderRadius = '';
+      el.style.overflow = '';
+    } );
+  }
 } )();

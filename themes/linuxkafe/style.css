@@ -428,3 +428,116 @@ button.menu-toggle {
 	display: none !important;
 }
 
+/* ========================================================= */
+
+/* LAYOUT SYSTEM (T006)                                      */
+
+/* ========================================================= */
+
+/* Wide layout - full width */
+body.layout-wide .site-header,
+body.layout-wide .header-container,
+body.layout-wide .linuxkafe-modern-theme,
+body.layout-wide .site-main,
+body.layout-wide .site-footer,
+body.layout-wide .menu-wrapper {
+	max-width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+/* Semi Boxed layout - default, centered with max-width */
+body.layout-semiboxed .site-header,
+body.layout-semiboxed .header-container,
+body.layout-semiboxed .linuxkafe-modern-theme,
+body.layout-semiboxed .site-main,
+body.layout-semiboxed .site-footer,
+body.layout-semiboxed .menu-wrapper {
+	max-width: var(--width-max, 1100px);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Boxed layout - centered container with shadow and background */
+body.layout-boxed {
+	background-color: #f0f0f0;
+	background-image: none !important;
+}
+
+body.layout-boxed .site-header,
+body.layout-boxed .header-container,
+body.layout-boxed .linuxkafe-modern-theme,
+body.layout-boxed .site-main,
+body.layout-boxed .site-footer,
+body.layout-boxed .menu-wrapper {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Boxed Margin layout - boxed with vertical margin */
+body.layout-boxed-margin {
+	background-color: #f0f0f0;
+	background-image: none !important;
+}
+
+body.layout-boxed-margin .site-header,
+body.layout-boxed-margin .header-container,
+body.layout-boxed-margin .linuxkafe-modern-theme,
+body.layout-boxed-margin .site-main,
+body.layout-boxed-margin .site-footer,
+body.layout-boxed-margin .menu-wrapper {
+	max-width: 1100px;
+	margin: 2rem auto;
+	background-color: #fff;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+/* Ensure gamification elements work in all layouts */
+body.layout-boxed #lk-shell,
+body.layout-boxed-margin #lk-shell,
+body.layout-boxed #lk-tux,
+body.layout-boxed-margin #lk-tux,
+body.layout-boxed #lk-graffiti,
+body.layout-boxed-margin #lk-graffiti,
+body.layout-boxed #lk-toasts,
+body.layout-boxed-margin #lk-toasts,
+body.layout-boxed #lk-retro-game,
+body.layout-boxed-margin #lk-retro-game {
+	position: fixed;
+	z-index: 5000;
+}
+
+/* Responsive adjustments for boxed layouts */
+@media (max-width: 768px) {
+
+	body.layout-boxed .site-header,
+	body.layout-boxed .header-container,
+	body.layout-boxed .linuxkafe-modern-theme,
+	body.layout-boxed .site-main,
+	body.layout-boxed .site-footer,
+	body.layout-boxed .menu-wrapper,
+	body.layout-boxed-margin .site-header,
+	body.layout-boxed-margin .header-container,
+	body.layout-boxed-margin .linuxkafe-modern-theme,
+	body.layout-boxed-margin .site-main,
+	body.layout-boxed-margin .site-footer,
+	body.layout-boxed-margin .menu-wrapper {
+		max-width: 100%;
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	body.layout-boxed,
+	body.layout-boxed-margin {
+		background-color: #fff;
+	}
+}
+

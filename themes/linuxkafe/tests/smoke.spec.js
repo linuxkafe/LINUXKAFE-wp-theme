@@ -738,3 +738,105 @@ test.describe('Expanded Cybercafe Messages', () => {
     expect(foundCategory || true).toBe(true);
   });
 });
+
+test.describe('Layout System (T006)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(6000);
+  });
+
+  test('default layout is semiboxed', async ({ page }) => {
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/layout-semiboxed/);
+  });
+
+  test('layout-wide applies full-width containers', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-wide');
+    });
+
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/layout-wide/);
+
+    const container = page.locator('.linuxkafe-modern-theme').first();
+    const styles = await container.evaluate(el => window.getComputedStyle(el).maxWidth);
+    expect(styles).toBe('none');
+  });
+
+  test('layout-boxed applies boxed styling', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-boxed');
+    });
+
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/layout-boxed/);
+
+    const bodyBg = await page.evaluate(() => window.getComputedStyle(document.body).backgroundColor);
+    expect(bodyBg).toBe('rgb(240, 240, 240)');
+
+    const container = page.locator('.linuxkafe-modern-theme').first();
+    const boxShadow = await container.evaluate(el => window.getComputedStyle(el).boxShadow);
+    expect(boxShadow).not.toBe('none');
+  });
+
+  test('layout-boxed-margin applies margin and border-radius', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-boxed-margin');
+    });
+
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/layout-boxed-margin/);
+
+    const container = page.locator('.linuxkafe-modern-theme').first();
+    const margin = await container.evaluate(el => window.getComputedStyle(el).marginTop);
+    expect(margin).not.toBe('0px');
+
+    const borderRadius = await container.evaluate(el => window.getComputedStyle(el).borderRadius);
+    expect(borderRadius).not.toBe('0px');
+  });
+
+  test('gamification elements work in boxed layout', async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-boxed');
+    });
+
+    const trigger = page.locator('[data-lk-shell-trigger]');
+    await expect(trigger).toBeVisible();
+
+    const tux = page.locator('#lk-tux');
+    await expect(tux).toBeAttached();
+
+    await tux.click();
+    await page.waitForTimeout(100);
+    await tux.click();
+    await page.waitForTimeout(100);
+    await tux.click();
+
+    const gameModal = page.locator('#lk-retro-game');
+    await expect(gameModal).toHaveClass(/open/);
+  });
+
+  test('responsive: boxed layouts become full-width on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.reload();
+    await page.waitForTimeout(6000);
+
+    await page.evaluate(() => {
+      document.body.classList.remove('layout-semiboxed');
+      document.body.classList.add('layout-boxed');
+    });
+
+    const container = page.locator('.linuxkafe-modern-theme').first();
+    const maxWidth = await container.evaluate(el => window.getComputedStyle(el).maxWidth);
+    const borderRadius = await container.evaluate(el => window.getComputedStyle(el).borderRadius);
+    const boxShadow = await container.evaluate(el => window.getComputedStyle(el).boxShadow);
+
+    expect(maxWidth).toBe('none');
+    expect(borderRadius).toBe('0px');
+    expect(boxShadow).toBe('none');
+  });
+});

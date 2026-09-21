@@ -173,6 +173,11 @@ require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/template-functions.php';
 
 /**
+ * Theme core functions: layout, pagination, breadcrumbs, header display.
+ */
+require get_template_directory() . '/inc/theme-functions.php';
+
+/**
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
