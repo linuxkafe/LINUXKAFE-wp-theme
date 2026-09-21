@@ -1,0 +1,58 @@
+{
+  "name": "linuxkafe",
+  "version": "2.1.0-gamified",
+  "description": "Tema WordPress gamificado com terminal Linux, Tux walker, graffiti, cybercafé toasts e easter eggs.",
+  "author": "LinuxKafé",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "keywords": [
+    "WordPress",
+    "Theme",
+    "Gamification"
+  ],
+  "homepage": "https://github.com/Automattic/_s#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Automattic/_s.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Automattic/_s/issues"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.44.0",
+    "@wordpress/scripts": "^19.2.2",
+    "@wordpress/stylelint-config": "^25.0.0",
+    "dir-archiver": "^1.1.1",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0",
+    "rtlcss": "^3.5.0",
+    "sass": "^1.77.0",
+    "stylelint": "^17.15.0"
+  },
+  "rtlcssConfig": {
+    "options": {
+      "autoRename": false,
+      "autoRenameStrict": false,
+      "blacklist": {},
+      "clean": true,
+      "greedy": false,
+      "processUrls": false,
+      "stringMap": []
+    },
+    "plugins": [],
+    "map": false
+  },
+  "scripts": {
+    "watch": "sass --watch style.css:style.css --style=expanded --no-source-map",
+    "compile:css": "stylelint '*.css' --fix || true && stylelint '*.css' --fix",
+    "compile:rtl": "rtlcss style.css style-rtl.css",
+    "lint:scss": "stylelint '*.css'",
+    "lint:js": "wp-scripts lint-js 'js/*.js'",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:install": "playwright install",
+    "bundle": "dir-archiver --src . --dest ../_s.zip --exclude .DS_Store .stylelintrc.json .eslintrc .git .gitattributes .github .gitignore README.md composer.json composer.lock node_modules vendor package-lock.json package.json .travis.yml phpcs.xml.dist sass style.css.map yarn.lock"
+  }
+}
